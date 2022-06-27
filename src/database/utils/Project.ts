@@ -13,17 +13,17 @@ async function getProjectByName(name: string): Promise<Project | null> {
     else return ProjectObject;
 }
 
-async function getProjects(limit: number): Promise<Project[]> {
+async function getProjects(limit?: number): Promise<Project[]> {
     const ProjectObjects: Project[] = await db.get().getRepository(Project)
         .createQueryBuilder("project")
-        .limit(limit)
+        .limit(limit || 10000)
         .getMany()
         .catch((err: any) => {errlog("Error getting projects", "database");throw err;});
 
     return ProjectObjects;
 } 
 
-async function editProject(name: string, meta?: Object, image?: Blob): Promise<Project | null> {
+async function editProject(name: string, meta?: Object, image?: string): Promise<Project | null> {
     const ProjectObject: Project | null = await getProjectByName(name);
     if (ProjectObject === null) return null;
     if (meta !== undefined) ProjectObject.project_meta = meta;
@@ -32,7 +32,7 @@ async function editProject(name: string, meta?: Object, image?: Blob): Promise<P
     return ProjectObject;
 }
 
-async function newProject(name: string, meta: Object, image: Blob): Promise<Project> {
+async function newProject(name: string, meta: Object, image: string): Promise<Project> {
     const ProjectObject: Project = new Project();
     ProjectObject.project_name = name;
     ProjectObject.project_meta = meta;
@@ -41,4 +41,11 @@ async function newProject(name: string, meta: Object, image: Blob): Promise<Proj
     return ProjectObject;
 }
 
-export { getProjectByName, getProjects, editProject, newProject };
+async function deleteProject(name: string): Promise<boolean> {
+    const ProjectObject: Project | null = await getProjectByName(name);
+    if (ProjectObject === null) return false;
+    await db.get().getRepository(Project).remove(ProjectObject).catch((err: any) => {errlog("Error deleting project", "database");throw err;});
+    return true;
+}
+
+export { getProjectByName, getProjects, editProject, newProject, deleteProject };

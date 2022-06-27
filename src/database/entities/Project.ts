@@ -11,7 +11,7 @@ export class Project extends BaseEntity {
     @Column('json')
     project_meta!: Object; // JSON with members, roles, etc
     
-    @Column('blob')
-    project_image!: Blob; // image of the project
+    @Column('text')
+    project_image!: string; // image of the project
 
 }
