@@ -45,14 +45,21 @@ async function verifyAppKey(appKey: string): Promise<boolean> {
     else return true;
 }
 
-async function getAppKeys(limit: number): Promise<AppKey[]> {
+async function getAppKeys(limit?: number): Promise<AppKey[]> {
     const AppKeyObjects: AppKey[] = await db.get().getRepository(AppKey)
         .createQueryBuilder("appKey")
-        .limit(limit)
+        .limit(limit || 10000)
         .getMany()
         .catch((err: any) => {errlog("Error getting app keys", "database");throw err;});
 
     return AppKeyObjects;
 }
 
-export { getAppKeyByKey, getAppKeyByOwner, newAppKey, editAppKey, verifyAppKey, getAppKeys };
+async function deleteAppKey(appKey: string): Promise<boolean> {
+    const AppKeyObject: AppKey | null = await getAppKeyByKey(appKey);
+    if (AppKeyObject === null) return false;
+    await db.get().getRepository(AppKey).remove(AppKeyObject).catch((err: any) => {errlog("Error deleting app key", "database");throw err;});
+    return true;
+}
+
+export { getAppKeyByKey, getAppKeyByOwner, newAppKey, editAppKey, verifyAppKey, getAppKeys, deleteAppKey };
