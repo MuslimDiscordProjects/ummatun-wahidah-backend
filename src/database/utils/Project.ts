@@ -33,7 +33,7 @@ async function getProjects(limit?: number): Promise<Project[]> {
 async function editProject(name: string, meta?: Object, image?: string): Promise<Project | null> {
     const ProjectObject: Project | null = await getProjectByName(name);
     if (ProjectObject === null) return null;
-    if (meta !== undefined) ProjectObject.project_meta = meta.toString();
+    if (meta !== undefined) ProjectObject.project_meta = JSON.stringify(meta);
     if (image !== undefined) ProjectObject.project_image = image;
     await db.get().getRepository(Project).save(ProjectObject).catch((err: any) => {errlog("Error editing project", "database");throw err;});
     return ProjectObject;
@@ -42,7 +42,7 @@ async function editProject(name: string, meta?: Object, image?: string): Promise
 async function newProject(name: string, meta: Object, image: string): Promise<Project> {
     const ProjectObject: Project = new Project();
     ProjectObject.project_name = name;
-    ProjectObject.project_meta = meta.toString();
+    ProjectObject.project_meta = JSON.stringify(meta);
     ProjectObject.project_image = image;
     await db.get().getRepository(Project).save(ProjectObject).catch((err: any) => {errlog("Error creating new project", "database");throw err;});
     return ProjectObject;
