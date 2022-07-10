@@ -9,7 +9,7 @@ async function handle(req: Request, res: Response) {
 
     projects = await getProjects(limit || undefined);
     
-    let toBeSentProjects: any;
+    let toBeSentProjects: any = {};
     for (let i = 0; i < projects.length; i++) {
         toBeSentProjects[projects[i].project_name] = {
             project_name: projects[i].project_name,
