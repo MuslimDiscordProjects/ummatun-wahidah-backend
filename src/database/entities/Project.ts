@@ -8,8 +8,8 @@ export class Project extends BaseEntity {
     @Column('text')
     project_name!: string; // ex: Epic Project
 
-    @Column('text')
-    project_meta!: string; //
+    @Column('json')
+    project_meta!: Object; // JSON with members, roles, etc
     
     @Column('text')
     project_image!: string; // image of the project
