@@ -34,6 +34,8 @@ async function editProject(name: string, meta?: Object, image?: string): Promise
     const ProjectObject: Project | null = await getProjectByName(name);
     if (ProjectObject === null) return null;
     if (meta !== undefined) ProjectObject.project_meta = `${meta}`;
+    console.log(meta)
+    console.log(`${meta}`)
     if (image !== undefined) ProjectObject.project_image = image;
     await db.get().getRepository(Project).save(ProjectObject).catch((err: any) => {errlog("Error editing project", "database");throw err;});
     return ProjectObject;
