@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model project {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  sources Json
+  links   Json
+
+  resources String[] // Array of Resource IDs!
+  files     String[] // Array of Document IDs!
+}
+
+model resource {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  file        String // A Document ID!!
+}
+
+model document {
+  id       String @id @default(uuid())
+  name     String
+  filetype String @default("pdf")
+}

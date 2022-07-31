@@ -1,0 +1,22 @@
+Error: 
+Invalid `.findUnique()` invocation in
+E:\Projects\Active\UmmatunWahidah\src\routers\resource\routes\POST\NewResource.ts:11:8
+
+   8   res.status(400).send();
+   9 } else {
+  10   prisma.document
+→ 11     .findUnique({
+           where: {
+             id: [
+               '932c836e-b6cd-46f9-a572-7c3d5cf84c2f'
+             ]
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           }
+         })
+
+Argument id: Got invalid value 
+[
+  '932c836e-b6cd-46f9-a572-7c3d5cf84c2f'
+]
+on prisma.findUniquedocument. Provided List<UUID>, expected String.
+

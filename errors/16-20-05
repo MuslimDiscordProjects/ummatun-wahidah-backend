@@ -1,0 +1,24 @@
+Error: 
+Invalid `.create()` invocation in
+E:\Projects\Active\UmmatunWahidah\src\routers\resource\routes\POST\NewResource.ts:11:8
+
+   8   res.status(400).send();
+   9 } else {
+  10   prisma.resource
+→ 11     .create({
+           data: {
+             name: 'Resource lol',
+             description: 'description tingz',
+             file: [
+               '932c836e-b6cd-46f9-a572-7c3d5cf84c2f'
+             ]
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           }
+         })
+
+Argument file: Got invalid value 
+[
+  '932c836e-b6cd-46f9-a572-7c3d5cf84c2f'
+]
+on prisma.createOneresource. Provided List<UUID>, expected String.
+
